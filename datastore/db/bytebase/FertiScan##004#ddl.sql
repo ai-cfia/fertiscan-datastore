@@ -1,11 +1,3 @@
-SET default_tablespace = '';
-
-SET default_table_access_method = heap;
-
-CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
-
-DEFAULT uuid_generate_v4()
-
 -- Tables
 
 -- Create the user table
@@ -30,6 +22,7 @@ CREATE TABLE "FertiScan_0.0.4".object (
 
 -- Create the fertiliser_object table (many-to-many relationship between fertiliser and object)
 CREATE TABLE "FertiScan_0.0.4".fertiliser_object (
+  id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
   fertiliser_id uuid REFERENCES "FertiScan_0.0.4".fertiliser(id) PRIMARY KEY,
   object_id uuid REFERENCES "FertiScan_0.0.4".object(id) PRIMARY KEY
 );
@@ -45,7 +38,7 @@ CREATE TABLE "FertiScan_0.0.4".group (
 
 -- Create the permission table
 CREATE TABLE "FertiScan_0.0.4".permission (
-  id int PRIMARY KEY DEFAULT uuid_generate_v4(),
+  id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
   name varchar(255) NOT NULL
 );
 
@@ -215,26 +208,3 @@ CREATE TABLE "FertiScan_0.0.4".metrics (
   metric_value decimal(10,2) NOT NULL,
   unit char(10)
 );
-
--- Add Foreign Key Constraints
-
-ALTER TABLE "FertiScan_0.0.4".information_metrics
-ADD CONSTRAINT information_metrics_metrics_id_fkey FOREIGN KEY (metrics_id) REFERENCES "FertiScan_0.0.4".metrics(id);
-
-ALTER TABLE "FertiScan_0.0.4".fertiliser_object
-ADD CONSTRAINT fertiliser_object_fertiliser_id_fkey FOREIGN KEY (fertiliser_id) REFERENCES "FertiScan_0.0.4".fertiliser(id);
-
-ALTER TABLE "FertiScan_0.0.4".fertiliser_object
-ADD CONSTRAINT fertiliser_object_object_id_fkey FOREIGN KEY (object_id) REFERENCES "FertiScan_0.0.4".object(id);
-
-ALTER TABLE "FertiScan_0.0.4".user_group
-ADD CONSTRAINT user_group_user_id_fkey FOREIGN KEY (user_id) REFERENCES "FertiScan_0.0.4".user(id);
-
-ALTER TABLE "FertiScan_0.0.4".user_group
-ADD CONSTRAINT user_group_group_id_fkey FOREIGN KEY (group_id) REFERENCES "FertiScan_0.0.4".group(id);
-
-ALTER TABLE "FertiScan_0.0.4".manufacturer_companie
-ADD CONSTRAINT manufacturer_companie_companie_id_fkey FOREIGN KEY (companie_id) REFERENCES "FertiScan_0.0.4".companie(id);
-
-ALTER TABLE "FertiScan_0.0.4".manufacturer_companie
-ADD CONSTRAINT manufacturer_companie_manufacturer_id_fkey FOREIGN KEY (manufacturer_id) REFERENCES "FertiScan_0.0.4".manufacturer(id);
