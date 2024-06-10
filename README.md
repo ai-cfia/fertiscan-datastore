@@ -1,3 +1,3 @@
-# repo-template
+# FertiScan database
 
-This repository is a template that can be used to create new projects.
+This repository is for the database of FertiScan
