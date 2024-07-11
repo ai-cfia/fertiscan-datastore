@@ -2,7 +2,7 @@
 
 This is the doc about the FertiScan datastore
 
-``` mermaid
+```mermaid
 
 ---
 title: FertiScan DB Structure
